@@ -10,3 +10,9 @@ variable "cluster_name" {
   default     = "example-cluster"
   
 }
+
+variable "retention_in_days" {}
+variable "desired_size" {}
+variable "max_size" {}
+variable "min_size" {}
+  

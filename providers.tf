@@ -1,3 +1,4 @@
+# It defines the required providers and their versions for the configuration.
 terraform {
     required_version = ">=0.13.1"
     required_providers {
@@ -6,6 +7,7 @@ terraform {
     }
 }
 
+# It also sets the AWS region to be used for the resources.
 provider "aws" {
     region = "us-east-1"
 }

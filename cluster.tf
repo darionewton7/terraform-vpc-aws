@@ -51,3 +51,34 @@ resource "aws_iam_role_policy_attachment" "cluster_AmazonEKSVPCResourceControlle
   role = aws_iam_role.cluster_role.name
   policy_arn = "arn:aws:iam::aws:policy/AmazonEKSVPCResourceController"
 }
+
+# cloudwatch log group for the cluster
+resource "aws_cloudwatch_log_group" "log" {
+  name = "/aws/eks/${var.prefix}-${var.cluster_name}-log-group"
+  retention_in_days = var.retention_in_days
+  tags = {
+    Name = "${var.prefix}-log-group"
+  }
+}
+
+# EKS cluster resource
+resource "aws_eks_cluster" "name" {
+  name = "${var.prefix}-${var.cluster_name}"
+  role_arn = aws_iam_role.cluster_role.arn
+  enabled_cluster_log_types = ["api", "audit", "authenticator", "controllerManager", "scheduler" ]
+  
+  vpc_config {
+    subnet_ids = aws_subnet.subnets[*].id
+    security_group_ids = [aws_security_group.sg.id]
+  }
+  
+  depends_on = [
+    aws_iam_role_policy_attachment.cluster_AmazonEKSClusterPolicy,
+    aws_iam_role_policy_attachment.cluster_AmazonEKSVPCResourceController,
+    aws_cloudwatch_log_group.log
+  ]
+  
+  tags = {
+    Name = "${var.prefix}-${var.cluster_name}"
+  }
+}
