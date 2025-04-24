@@ -1,4 +1,3 @@
-# terraform-vpc-aws
 # 🚀 terraform-vpc-aws
 
 Provisionamento de uma infraestrutura na AWS utilizando **Terraform**, com foco na criação de uma **VPC personalizada** e recursos associados como sub-redes, instâncias de cluster e automação com boas práticas de DevOps.
